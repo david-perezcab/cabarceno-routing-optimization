@@ -1,0 +1,15 @@
+# --- INGENIERÍA DE DATOS (Extracción y Grafos) ---
+osmnx==1.9.1          # Descarga redes de calles de OpenStreetMap
+networkx==3.2.1       # Manipulación pura de grafos (nodos y aristas)
+geopandas==0.14.3     # Manipulación de datos espaciales y coordenadas
+
+# --- CIENCIA DE DATOS Y MATEMÁTICAS (Optimización) ---
+numpy==1.26.4         # Operaciones matriciales
+scipy==1.12.0         # Algoritmos de grafos y matrices dispersas
+ortools==9.8.3296     # Google OR-Tools: El mejor solver de la industria para el TSP/VRP
+
+# --- ANÁLISIS Y VISUALIZACIÓN (Dashboard) ---
+streamlit==1.35.0     # Creación del frontend interactivo en puro Python
+folium==0.15.1        # Renderizado de mapas interactivos (Leaflet.js)
+streamlit-folium==0.20.0 # Puente para incrustar el mapa interactivo en la app web
+matplotlib==3.7.2    # Visualización de datos y gráficos
