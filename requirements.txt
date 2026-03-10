@@ -7,6 +7,7 @@ geopandas==0.14.3     # Manipulación de datos espaciales y coordenadas
 numpy==1.26.4         # Operaciones matriciales
 scipy==1.12.0         # Algoritmos de grafos y matrices dispersas
 ortools==9.8.3296     # Google OR-Tools: El mejor solver de la industria para el TSP/VRP
+scikit-learn==1.3.2   # Paquete general de machine learning
 
 # --- ANÁLISIS Y VISUALIZACIÓN (Dashboard) ---
 streamlit==1.35.0     # Creación del frontend interactivo en puro Python
