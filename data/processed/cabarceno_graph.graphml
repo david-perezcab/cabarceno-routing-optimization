@@ -3109,6 +3109,13 @@
       <data key="d6">-3.834192</data>
       <data key="d7">43.3675352</data>
     </node>
+    <node id="13716961377">
+      <data key="d3">4802015.252897685</data>
+      <data key="d4">432320.6462379913</data>
+      <data key="d5">2</data>
+      <data key="d6">-3.8353365</data>
+      <data key="d7">43.3679511</data>
+    </node>
     <node id="638976469">
       <data key="d3">4802021.700452833</data>
       <data key="d4">432324.5191474159</data>
@@ -17461,12 +17468,12 @@
       <data key="d13">False</data>
       <data key="d14">16.294</data>
     </edge>
-    <edge source="638976468" target="638976469" id="0">
+    <edge source="638976468" target="13716961377" id="0">
       <data key="d9">257999735</data>
       <data key="d10">True</data>
       <data key="d12">service</data>
       <data key="d13">False</data>
-      <data key="d14">15.511</data>
+      <data key="d14">7.987</data>
     </edge>
     <edge source="638976458" target="638976459" id="0">
       <data key="d9">257999735</data>
@@ -17565,6 +17572,13 @@
       <data key="d12">service</data>
       <data key="d13">False</data>
       <data key="d14">6.416</data>
+    </edge>
+    <edge source="13716961377" target="638976469" id="0">
+      <data key="d9">257999735</data>
+      <data key="d10">True</data>
+      <data key="d12">service</data>
+      <data key="d13">False</data>
+      <data key="d14">7.524</data>
     </edge>
     <edge source="638976469" target="638976470" id="0">
       <data key="d9">257999735</data>
@@ -33828,7 +33842,7 @@
       <data key="d14">19.19</data>
       <data key="d16">driveway</data>
     </edge>
-    <data key="d0">2026-04-12 00:38:45</data>
+    <data key="d0">2026-04-12 12:53:32</data>
     <data key="d1">OSMnx 1.9.1</data>
     <data key="d2">EPSG:32630</data>
   </graph>

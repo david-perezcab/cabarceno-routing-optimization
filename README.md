@@ -5,41 +5,40 @@
 ![OSMnx](https://img.shields.io/badge/OSMnx-Graph_Theory-brightgreen.svg)
 ![Streamlit](https://img.shields.io/badge/Streamlit-Web_App-red.svg)
 
-## El Problema
+## The Problem
 
-El [Parque de la Naturaleza de Cabárceno](https://parquedecabarceno.com/) (Cantabria, España) abarca 750 hectáreas y cuenta con más de 20 km de carreteras internas. Los visitantes se desplazan en sus propios vehículos entre los recintos de los animales, lo que genera rutas ineficientes, atascos y pérdida de tiempo.
+The [Parque de la Naturaleza de Cabárceno](https://parquedecabarceno.com/) (Cantabria, Spain) spans over 750 hectares and features more than 20 km of internal roads. Visitors drive their own vehicles between animal enclosures, often leading to inefficient routes, traffic jams, and wasted time.
 
-Este proyecto resuelve el problema construyendo un **Recomendador de Rutas Óptimas**. Dado un conjunto de animales que un usuario desea visitar, el sistema calcula matemáticamente el recorrido más rápido respetando la topología real de las carreteras del parque y sus sentidos de circulación.
+This project solves the problem by building an **Optimal Route Recommender**. Given the animal enclosures a visitor wants to see, the system mathematically calculates the absolute shortest path while strictly respecting the park's actual road topology, one-way streets, and exact parking lot locations.
 
-## Arquitectura del Proyecto (Data Lifecycle)
+## Project Architecture (Data Lifecycle)
 
-El proyecto está diseñado como un *pipeline* completo de datos, dividiendo el problema en las tres disciplinas clave del ecosistema Data:
+The project is designed as a complete data pipeline, dividing the problem into three key data disciplines:
 
-### 1. Ingeniería de Datos
+### 1. Data Engineering (`01_extraction.ipynb`)
 
-* **Extracción Topológica:** En lugar de usar aproximaciones lineales, se extrae el grafo espacial real de las vías transitables del parque directamente desde OpenStreetMap usando la API de Overpass y `osmnx`.
-* **Procesamiento:** Limpieza de nodos aislados, corrección de sentidos únicos (One-Way streets) y proyección del grafo a un Sistema de Referencia de Coordenadas (CRS) local para medir distancias métricas reales.
+* **Topological Extraction:** Instead of using linear approximations, the real spatial graph of the park's drivable roads is extracted directly from OpenStreetMap using the Overpass API and `osmnx`.
+* **Processing:** Cleaning isolated nodes, enforcing one-way street directions, and projecting the graph to a local Coordinate Reference System (CRS) (UTM) to measure real metric distances.
 
-### 2. Ciencia de Datos
+### 2. Data Science & Optimization (`02_optimization.ipynb`)
 
-* **Matemáticas:** El reto se modela como una variante del **Problema del Viajante (TSP - Traveling Salesperson Problem)** sobre un grafo asimétrico.
-* Se pre-calcula una matriz de distancias exactas entre todos los recintos objetivo utilizando el **Algoritmo de Dijkstra** para encontrar los caminos mínimos en el grafo subyacente.
-* **Optimización:** La función objetivo busca minimizar el coste total (distancia/tiempo) del recorrido $x_{ij}$ entre los nodos $i$ y $j$, sujetos a restricciones de ruteo:
+* **Vectorized Geospatial Joins:** We use `geopandas` spatial joins (`sjoin`, `buffer`) to map animal enclosures to all nearby candidate parking lots within 50 meters, eliminating slow Python loops.
+* **Mathematical Modeling:** The challenge is modeled as a **Generalized Traveling Salesperson Problem (GTSP)** on an asymmetrical graph. Because visitors can park in multiple spots for the same enclosure, the C++ solver dynamically picks the single best parking lot per animal using OR-Tools' `AddDisjunction` penalty constraint.
+* **Dijkstra's Algorithm:** Pre-computing the exact distance matrix between all target parking candidates using the underlying road graph.
+* **MILP Solver:** The Mixed Integer Linear Programming system is solved using the Guided Local Search metaheuristic from **Google OR-Tools**.
 
-$$
-\min \sum_{i \in V} \sum_{j \in V} c_{ij} x_{ij}
-$$
+### 3. Analysis & Benchmarking (`03_analysis.ipynb`)
 
-* **Solver:** Resolución del sistema de programación lineal entera mixta (MILP) mediante heurísticas de **Google OR-Tools**.
+* **Dynamic Programming (Viterbi Algorithm):** A critical benchmarking comparison between our algorithmic Optimal Route and the park's official Recommended Route (from their paper map). By structurally mapping the official sequence (1 to 32) and applying Viterbi to select the cheapest parking combinations for that rigid chronological layout, we accurately demonstrate the exact driving distance saved by using our OR-Tools solution vs. the manual brochure.
 
-### 3. Análisis de datos y Visualización
+### 4. Data Visualization
 
-* **Frontend:** Despliegue de una interfaz interactiva con `Streamlit`.
-* **Mapeo Espacial:** Renderizado dinámico de la ruta óptima calculada sobre un mapa interactivo usando `Folium` y `Leaflet.js`, permitiendo al usuario final (el visitante) seguir las indicaciones visuales precisas.
+* **Spatial Mapping:** Dynamic rendering of the calculated optimal route on an interactive map using `Folium` and `Leaflet.js`. This allows end-users to follow precise visual directions, and automatically groups and clusters enclosures to prevent marker overlap on the UI.
+* *(Upcoming/Planned)* **Frontend:** Deployment of an interactive UI with `Streamlit`.
 
-## Stack Tecnológico
+## Tech Stack
 
-* **Core Matemático/Datos:** `numpy`, `scipy`, `networkx`, `geopandas`
-* **Optimización:** `ortools` (Google OR-Tools)
-* **Geospatial & Scraped Data:** `osmnx`
-* **Visualización & UI:** `streamlit`, `folium`, `streamlit-folium`
+* **Core Math/Data:** `numpy`, `networkx`, `geopandas`, `shapely`
+* **Optimization:** `ortools` (Google OR-Tools)
+* **Geospatial & Scraped Data:** `osmnx`, `pyproj`
+* **Visualization & UI:** `folium`, `streamlit`# Cabárceno Routing Optimization: End-to-End TSP Solver
