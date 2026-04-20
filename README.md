@@ -17,7 +17,7 @@ The project is designed as a complete data pipeline, dividing the problem into t
 
 ### 1. Data Engineering (`01_extraction.ipynb`)
 
-* **Topological Extraction:** Instead of using linear approximations, the real spatial graph of the park's drivable roads is extracted directly from OpenStreetMap using the Overpass API and `osmnx`.
+* **Topological Extraction:** Instead of using linear approximations, the real spatial graph of the park's drivable roads is extracted directly from OpenStreetMap (© OpenStreetMap contributors) using the Overpass API and `osmnx`.
 * **Processing:** Cleaning isolated nodes, enforcing one-way street directions, and projecting the graph to a local Coordinate Reference System (CRS) (UTM) to measure real metric distances.
 
 ### 2. Data Science & Optimization (`02_optimization.ipynb`)
@@ -41,4 +41,4 @@ The project is designed as a complete data pipeline, dividing the problem into t
 * **Core Math/Data:** `numpy`, `networkx`, `geopandas`, `shapely`
 * **Optimization:** `ortools` (Google OR-Tools)
 * **Geospatial & Scraped Data:** `osmnx`, `pyproj`
-* **Visualization & UI:** `folium`, `streamlit`# Cabárceno Routing Optimization: End-to-End TSP Solver
+* **Visualization & UI:** `folium`, `streamlit`
